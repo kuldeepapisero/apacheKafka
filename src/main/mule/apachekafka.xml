@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:kafka="http://www.mulesoft.org/schema/mule/kafka" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/kafka http://www.mulesoft.org/schema/mule/kafka/current/mule-kafka.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<kafka:kafka-producer-config name="Apache_Kafka_Producer_configuration" doc:name="Apache Kafka Producer configuration" doc:id="e9fe702b-c2ab-4e86-a432-143289b3a62e" >
+		<kafka:basic-kafka-producer-connection bootstrapServers="localhost:9092" >
+		</kafka:basic-kafka-producer-connection>
+	</kafka:kafka-producer-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e9d94808-7bc1-417e-b781-78765552bd00" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<kafka:kafka-consumer-config name="Apache_Kafka_Consumer_configuration" doc:name="Apache Kafka Consumer configuration" doc:id="f606ee22-1fd1-48fa-957a-2680379a0e1b" >
+		<kafka:basic-kafka-consumer-connection groupId="test-consumer" bootstrapServers="localhost:9092" >
+		</kafka:basic-kafka-consumer-connection>
+	</kafka:kafka-consumer-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="c9efaa5c-8a8e-4633-83aa-c951eab14e7a" >
+		<db:oracle-connection host="localhost" user="SYSTEM" password="test" instance="xe"/>
+	</db:config>
+	<flow name="publisherFlow" doc:id="25c2c45f-461a-4fe4-bb4e-35b9b98b07ba" >
+		<http:listener doc:name="Listener" doc:id="eb8b2081-edbf-4ecf-bb80-080e8bfe098f" config-ref="HTTP_Listener_config" path="/kafka"/>
+		<logger level="INFO" doc:name="Logger" doc:id="86db15a2-1f4f-4428-945a-2c46d15d23c3" />
+		<set-variable value="#[attributes.queryParams.Name]" doc:name="Set Variable" doc:id="9adf73ba-5df8-499b-91f0-b2d63c6b3b85" variableName="name"/>
+		<db:select doc:name="Select" doc:id="fddd394e-7e5b-464a-9884-f13a34eafc05" config-ref="Database_Config">
+			<db:sql>Select * from Employee2
+where NAME = :name</db:sql>
+			<db:input-parameters ><![CDATA[#['name': vars.name]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="dc5cf14b-a6d7-40d0-a623-207b49388d25" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="36966425-fcac-4a56-8616-dfa6976cf1ac" />
+		<kafka:producer doc:name="Publish Message" doc:id="483d27cf-dfe9-46a3-9961-5b1ce7685310" config-ref="Apache_Kafka_Producer_configuration" topic="testTopic" key="firstMessage" />
+		<logger level="INFO" doc:name="Logger" doc:id="3cdad445-4586-4863-a9b4-54384dd6d6c6" message="Message published: #[payload]"/>
+	</flow>
+	<flow name="consumerFlow" doc:id="e446ad77-dce2-489a-bc28-392bccc35190" >
+		<kafka:consumer doc:name="Message Consumer" doc:id="7fe1f716-dcb1-47c3-b874-071a356ff56d" topic="testTopic" config-ref="Apache_Kafka_Consumer_configuration">
+		</kafka:consumer>
+		<logger level="INFO" doc:name="Logger" doc:id="0d0e6f67-5f1f-45cd-ba4c-6cbedabaf969" message="Message consumed: #[payload]"/>
+	</flow>
+</mule>
