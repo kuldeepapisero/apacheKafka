@@ -31,19 +31,21 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					
+
 					<cloudHubDeployment>
-						
+
 						<muleVersion>4.2.2</muleVersion>
 						<!-- Deploy User Parameter -->
 						<username>assessment1</username>
 						<password>Outlook@06</password>
 						<!-- Environment Parameter -->
-						<environment>SANDBOX</environment>
 						<applicationName>apacheKafka</applicationName>
-						
+						<environment>Sandbox</environment>
+						<workers>0.1</workers>
+						<workerType>Micro</workerType>
+
 					</cloudHubDeployment>
-					
+
 					<sharedLibraries>
 						<sharedLibrary>
 							<groupId>oracle</groupId>
