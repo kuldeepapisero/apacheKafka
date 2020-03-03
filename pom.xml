@@ -33,8 +33,10 @@
 						<password>Outlook@06</password>
 						<environment>Sandbox</environment>
 						<applicationName>ApacheKafka</applicationName>
+						<workers>1</workers>
+						<region>us-east-1</region>
 						<workerType>MICRO</workerType>
-						<!-- <businessGroup>APISERO</businessGroup> -->
+						<businessGroup>APISERO</businessGroup>
 						<properties>
                 			<key>value</key>
 		            	</properties>
