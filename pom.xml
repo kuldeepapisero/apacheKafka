@@ -27,6 +27,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<cloudHubDeployment>
+						<deploymentType>cloudhub</deploymentType>
 						<uri>https://anypoint.mulesoft.com</uri>
 						<muleVersion>4.2.2</muleVersion>
 						<username>assessment1</username>
@@ -37,11 +38,11 @@
 						<region>us-east-1</region>
 						<workerType>MICRO</workerType>
 						<businessGroup>APISERO</businessGroup>
+						<redeploy>true</redeploy>
 						<properties>
                 			<key>value</key>
 		            	</properties>
 					</cloudHubDeployment>
-					
 					<sharedLibraries>
 						<sharedLibrary>
 							<groupId>oracle</groupId>
