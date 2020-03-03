@@ -23,7 +23,7 @@
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>3.3.4</version>
+				<version>3.3.5</version>
 			</plugin>
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
