@@ -23,25 +23,22 @@
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>3.3.5</version>
+				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-
 					<cloudHubDeployment>
-
 						<uri>https://anypoint.mulesoft.com</uri>
 						<muleVersion>4.2.2</muleVersion>
-						<!-- Deploy User Parameter -->
 						<username>assessment1</username>
 						<password>Outlook@06</password>
-						<!-- Environment Parameter -->
 						<environment>Sandbox</environment>
 						<applicationName>ApacheKafka</applicationName>
 						<businessGroup>APISERO</businessGroup>
-						<workerType>Micro</workerType>
-
+						<properties>
+                					<key>value</key>
+		            	</properties>
 					</cloudHubDeployment>
-
+					
 					<sharedLibraries>
 						<sharedLibrary>
 							<groupId>oracle</groupId>
