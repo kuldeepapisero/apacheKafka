@@ -26,6 +26,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="Listener" doc:id="eb8b2081-edbf-4ecf-bb80-080e8bfe098f" config-ref="HTTP_Listener_config" path="/kafka"/>
 		<logger level="INFO" doc:name="Logger" doc:id="86db15a2-1f4f-4428-945a-2c46d15d23c3" />
 		<set-variable value="#[attributes.queryParams.Name]" doc:name="Set Variable" doc:id="9adf73ba-5df8-499b-91f0-b2d63c6b3b85" variableName="name"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d86674ad-5719-4c5d-963b-fbe1c55f2c9c" message='#["logger added"]'/>
 		<db:select doc:name="Select" doc:id="fddd394e-7e5b-464a-9884-f13a34eafc05" config-ref="Database_Config">
 			<db:sql>Select * from Employee2
 where NAME = :name</db:sql>
