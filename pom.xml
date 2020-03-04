@@ -32,7 +32,7 @@
 						<username>assessment1</username>
 						<password>Outlook@06</password>
 						<environment>Sandbox</environment>
-						<applicationName>ApacheKafka</applicationName>
+						<applicationName>mule-demo-ApacheKafka</applicationName>
 						<workers>1</workers>
 						<region>us-east-1</region>
 						<workerType>MICRO</workerType>
